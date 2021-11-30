@@ -3,7 +3,7 @@ import { XIcon } from "@heroicons/react/solid";
 import RecipeAPI from "../API/getRecipes";
 import { RecipeContext } from "../context/RecipeContext";
 
-function CreateRecipe({ handleDisplayRecipeCreate }) {
+function CreateRecipe({ handleDisplayRecipeCreate, setDisplayRecipeCreate }) {
   const { recipes, setRecipes } = useContext(RecipeContext);
   const inputRef = useRef();
   const focusInput = () => inputRef.current.focus();
@@ -14,7 +14,7 @@ function CreateRecipe({ handleDisplayRecipeCreate }) {
 
   const [name, setName] = useState("");
   const [prepTime, setPrepTime] = useState("");
-  const [ingredients, setIngredients] = useState("");
+  const [ingredients, setIngredients] = useState([]);
   const [direction, setDirection] = useState("");
   const [recipeURL, setRecipeURL] = useState("");
 
@@ -27,7 +27,8 @@ function CreateRecipe({ handleDisplayRecipeCreate }) {
   };
 
   const handleInputIngredientsChange = (e) => {
-    setIngredients(e.target.value);
+    const splitIngredients = e.target.value.split(" ");
+    splitIngredients.map((ingredient) => setIngredients(ingredients.concat(ingredient)));
   };
 
   const handleInputDirectionChange = (e) => {
@@ -38,7 +39,7 @@ function CreateRecipe({ handleDisplayRecipeCreate }) {
     setRecipeURL(e.target.value);
   };
 
-  const newRecipeInfo = {
+  const newRecipe = {
     name,
     prepTime,
     ingredients,
@@ -47,10 +48,10 @@ function CreateRecipe({ handleDisplayRecipeCreate }) {
   };
   const handlePostForm = async (e) => {
     e.preventDefault();
-    const response = await RecipeAPI.post("/recipe", newRecipeInfo);
+    const response = await RecipeAPI.post("/recipe", newRecipe);
     setRecipes(response.data.recipes);
-    // notify recipe added
-    // close modal
+    // notify recipe added logic
+    setDisplayRecipeCreate(false);
   };
 
   return (
