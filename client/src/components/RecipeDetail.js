@@ -37,15 +37,15 @@ function RecipeDetail() {
       {loading ? (
         <p className="text-lg">Loading...</p>
       ) : (
-        <div className="w-7/12 h-5/6 bg-gray-200 p-5 shadow-lg rounded-lg">
+        <div className=" w-4/6 h-5/6 bg-gray-200 p-5 shadow-lg rounded-lg">
           <div className="w-full h-full grid grid-rows-6 grid-cols-2 gap-2">
             <div className="row-span-1 col-span-2 p-1 m-2 flex justify-center items-center text-6xl text-gray-800">
               {selectedRecipe.name}
             </div>
             <div className="row-span-5 col-span-2 p-1 m-2">
               <div className="grid grid-cols-2 gap-2 h-full">
-                <div className="flex flex-col">
-                  <div className="flex items-center py-2">
+                <div className="flex flex-col space-y-4">
+                  <div className="flex items-center py-1">
                     <BookmarkIcon
                       onClick={updateToTry}
                       className={
@@ -93,11 +93,11 @@ function RecipeDetail() {
                   className={
                     selectedRecipe.toTry === false
                       ? "p-2 mx-2 bg-green-300 rounded-lg"
-                      : "p-2 mx-2 bg-red-200 rounded-lg"
+                      : "p-2 mx-2 bg-gray-500 rounded-lg"
                   }
                   onClick={updateToTry}
                 >
-                  {selectedRecipe.toTry === false ? "Add to Fav" : "Remove from Fav"}
+                  {selectedRecipe.toTry === false ? "Bookmark" : "Remove Bookmark"}
                 </button>
                 <button className="p-2 mx-2 bg-yellow-500 rounded-lg">Tried Recipe</button>
               </div>
