@@ -3,7 +3,7 @@ import { XIcon } from "@heroicons/react/solid";
 import RecipeAPI from "../API/getRecipes";
 import { RecipeContext } from "../context/RecipeContext";
 
-function CreateRecipe({ handleDisplayRecipeCreate, setDisplayRecipeCreate }) {
+function CreateRecipe({ handleDisplayRecipeCreate, setDisplayRecipeCreate, displayRecipeCreate }) {
   const { recipes, setRecipes } = useContext(RecipeContext);
   const inputRef = useRef();
   const focusInput = () => inputRef.current.focus();
@@ -55,61 +55,70 @@ function CreateRecipe({ handleDisplayRecipeCreate, setDisplayRecipeCreate }) {
   };
 
   return (
-    <div className="fixed h-screen inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
-      <div className="w-3/4 h-3/4 bg-gray-200 py-6 px-4 rounded-md">
-        <div className="flex justify-end">
-          <XIcon className="relative w-10 h-10" onClick={handleDisplayRecipeCreate} />
-        </div>
-        <div className=" w-full flex justify-center">
-          <h3 className="text-4xl">Create a Recipe</h3>
-        </div>
+    <div className={displayRecipeCreate ? "modal is-active" : "modal"}>
+      <div className="modal-background"></div>
+      <div className="modal-content">
+        <div className="">
+          <div className="">
+            <h3 className="">Create a Recipe</h3>
+          </div>
 
-        <div className="w-ful flex flex-col mt-2 p-3">
-          <form className="space-y-6" action="">
-            <Input
-              value={name}
-              labelName="name"
-              inputRef={inputRef}
-              handleInputChange={handleInputNameChange}
-            >
-              Name
-            </Input>
-            <Input value={prepTime} labelName="prep" handleInputChange={handleInputPrepTimeChange}>
-              Prepare Time
-            </Input>
-            <Input
-              value={ingredients}
-              labelName="ingredient"
-              handleInputChange={handleInputIngredientsChange}
-            >
-              Ingredients
-            </Input>
-            <Input
-              value={direction}
-              labelName="direction"
-              handleInputChange={handleInputDirectionChange}
-            >
-              Direction
-            </Input>
-            <Input
-              value={recipeURL}
-              labelName="imgURL"
-              handleInputChange={handleInputRecipeURLChange}
-            >
-              Image URL
-            </Input>
-            <div className="flex justify-center">
-              <button
-                className="bg-blue-500 text-white text-xl font-semibold w-24 rounded-md p-3 shadow-sm"
-                type="submit"
-                onClick={handlePostForm}
+          <div className="">
+            <form className="space-y-6" action="">
+              <Input
+                value={name}
+                labelName="name"
+                inputRef={inputRef}
+                handleInputChange={handleInputNameChange}
               >
-                Save
-              </button>
-            </div>
-          </form>
+                Name
+              </Input>
+              <Input
+                value={prepTime}
+                labelName="prep"
+                handleInputChange={handleInputPrepTimeChange}
+              >
+                Prepare Time
+              </Input>
+              <Input
+                value={ingredients}
+                labelName="ingredient"
+                handleInputChange={handleInputIngredientsChange}
+              >
+                Ingredients
+              </Input>
+              <Input
+                value={direction}
+                labelName="direction"
+                handleInputChange={handleInputDirectionChange}
+              >
+                Direction
+              </Input>
+              <Input
+                value={recipeURL}
+                labelName="imgURL"
+                handleInputChange={handleInputRecipeURLChange}
+              >
+                Image URL
+              </Input>
+              <div className="flex justify-center">
+                <button
+                  className="bg-blue-500 text-white text-xl font-semibold w-24 rounded-md p-3 shadow-sm"
+                  type="submit"
+                  onClick={handlePostForm}
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
+      <button
+        onClick={handleDisplayRecipeCreate}
+        className="modal-close is-large"
+        aria-label="close"
+      ></button>
     </div>
   );
 }
@@ -119,20 +128,19 @@ export default CreateRecipe;
 const Input = ({ labelName, children, inputRef, value, handleInputChange }) => {
   return (
     <div>
-      <div className="mt-3">
-        <label className="px-2 font-medium block text-xl border-purple-300" htmlFor={labelName}>
+      <div className="">
+        <label className="" htmlFor={labelName}>
           {children}
         </label>
       </div>
-      <div className="w-full">
+      <div className="">
         <input
           id={labelName}
           name={labelName}
           value={value}
           ref={inputRef}
           required
-          className="w-full px-2 py-1 text-2xl rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500
-      "
+          className="input"
           onChange={handleInputChange}
           type="text"
         />

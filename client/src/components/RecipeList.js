@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import Search from "./Search";
+
 import RecipeAPI from "../API/getRecipes";
 import { RecipeContext } from "../context/RecipeContext";
 import CreateRecipe from "./CreateRecipe";
-import Search from "./Search";
-import { ClockIcon } from "@heroicons/react/solid";
+import { ClockIcon, HeartIcon, PlusCircleIcon } from "@heroicons/react/solid";
+import "./RecipeList.css";
 
 export default function RecipeList() {
   const { recipes, setRecipes } = useContext(RecipeContext);
@@ -72,22 +75,9 @@ export default function RecipeList() {
   });
 
   return (
-    <div className="max-w-2xl mx-auto py-16  px-4 sm:py-24 sm:px-6 lg:max-w-7xl">
-      <div className="flex justify-center">
-        <Search
-          searchTerm={searchTerm}
-          handleChangeSearchTerm={handleChangeSearchTerm}
-          bookmarkFilter={bookmarkFilter}
-          handleSetBookmarkFilter={handleSetBookmarkFilter}
-          triedFilter={triedFilter}
-          handleSetTriedFilter={handleSetTriedFilter}
-        />
-      </div>
-      <div className="w-full flex justify-center mt-2">
-        <button
-          className="bg-gray-500 rounded-lg text-white p-4"
-          onClick={handleDisplayRecipeCreate}
-        >
+    <div className="hero is-fullheight">
+      {/* <div className="">
+        <button className="button is-danger is-large" onClick={handleDisplayRecipeCreate}>
           Add a Recipe
         </button>
       </div>
@@ -97,43 +87,123 @@ export default function RecipeList() {
           handleDisplayRecipeCreate={handleDisplayRecipeCreate}
           setDisplayRecipeCreate={setDisplayRecipeCreate}
         />
-      )}
-
-      <div className="grid grid-cols-1 gap-y-10 max-h-screen overflow-y-auto mt-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-6 ">
-        {/* Recipe Card */}
-        {results &&
-          results.map((recipe) => {
-            return (
-              <div
-                key={recipe.id}
-                className="relative bg-gray-200 group group-hover:opacity-75 group-hover:shadow-xl rounded-lg"
-              >
-                <div className="flex items-center w-14 h-14 absolute z-40 top-0 left-0 text-gray-100 font-extrabold py-1 text-xl">
-                  <ClockIcon area-hidden="true" className="" />
-                  <div>{recipe.prepTime}</div>
+      )} */}
+      <CreateRecipe
+        handleDisplayRecipeCreate={handleDisplayRecipeCreate}
+        displayRecipeCreate={displayRecipeCreate}
+        setDisplayRecipeCreate={setDisplayRecipeCreate}
+      />
+      <div className="columns">
+        <div className="column">
+          <div className="section">
+            <div className="container">
+              <div className="columns is-centered">
+                <div className="column is-one-fifth has-text-white ">
+                  <div className="section">
+                    <div className="container has-text-centered">
+                      <h1 className="title is-1 has-text-weight-semibold has-text-primary">
+                        Recipe Builder
+                      </h1>
+                    </div>
+                  </div>
+                  <div className="section">
+                    <div className="container">
+                      <div className="buttons are-medium">
+                        <button
+                          className="button is-success is-outlined is-rounded is-fullwidth my-3"
+                          onClick={handleSetBookmarkFilter}
+                        >
+                          <span className="icon">
+                            <HeartIcon />
+                          </span>
+                          <span className="icon-text">Saved</span>
+                        </button>
+                        <button
+                          className="button is-success is-outlined is-rounded is-fullwidth my-1"
+                          onClick={handleSetTriedFilter}
+                        >
+                          <span className="icon">
+                            <PlusCircleIcon />
+                          </span>
+                          <span className="icon-text">To Try</span>
+                        </button>
+                        <button
+                          className="button is-success is-outlined is-rounded is-fullwidth my-1"
+                          onClick={handleDisplayRecipeCreate}
+                        >
+                          <span className="icon">
+                            <PlusCircleIcon />
+                          </span>
+                          <span className="icon-text">Create</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                <div
-                  onClick={() => handleRecipeSelect(recipe.id)}
-                  className="aspect-w-1 aspect-h-1 bg-blue-500"
-                >
-                  <img
-                    alt={recipe.alt}
-                    src={recipe.src}
-                    className="w-full h-full object-center object-cover group-hover:opacity-75"
-                  />
-                </div>
-                <div className="flex-col">
-                  <h4
-                    className="px-1 ml-2 my-4
-              text-2xl pt-1 text-gray-700"
-                  >
-                    {recipe.name}
-                  </h4>
+                <div className="column">
+                  <div className="section">
+                    <div className="container">
+                      <Search
+                        searchTerm={searchTerm}
+                        handleChangeSearchTerm={handleChangeSearchTerm}
+                        bookmarkFilter={bookmarkFilter}
+                        handleSetBookmarkFilter={handleSetBookmarkFilter}
+                        triedFilter={triedFilter}
+                        handleSetTriedFilter={handleSetTriedFilter}
+                      />
+                      <div className="columns is-multiline">
+                        {results &&
+                          results.map((recipe) => {
+                            return (
+                              <div className="column is-4" key={recipe.id}>
+                                <div className="card">
+                                  <div
+                                    onClick={() => handleRecipeSelect(recipe.id)}
+                                    className="card-image"
+                                  >
+                                    <figure className="image is-4by3">
+                                      <img alt={recipe.alt} src={recipe.src} />
+                                    </figure>
+                                  </div>
+                                  <div className="card-content">
+                                    <h4
+                                      onClick={() => handleRecipeSelect(recipe.id)}
+                                      className="title is-size-5"
+                                    >
+                                      {recipe.name}
+                                    </h4>
+                                  </div>
+                                  <div className="card-footer">
+                                    <div className="card-footer-item">
+                                      <span className="icon mr-2">
+                                        <ClockIcon />
+                                      </span>
+                                      <span className="icon-text">{recipe.prepTime} min</span>
+                                    </div>
+                                    <div className="card-footer-item">
+                                      <button className="button is-fullwidth is-rounded">
+                                        <div className="icon">
+                                          {recipe.toTry ? (
+                                            <HeartIcon className=" has-text-dark" />
+                                          ) : (
+                                            <HeartIcon className="has-text-grey-light" />
+                                          )}
+                                        </div>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
