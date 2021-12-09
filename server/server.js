@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
-const { recipeList, updateToTry, findRecipe, addRecipe } = require("./recipes");
+const { recipeList, updateToTry, findRecipe, addRecipe, updateTried } = require("./recipes");
 const { response } = require("express");
 
 const { json } = express;
@@ -58,6 +58,18 @@ app.put("/recipes/update/toTry/:id", async (req, res) => {
     const updatedToTry = await updateToTry(id);
     res.json({
       recipes: updatedToTry
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.put("/recipes/update/tried/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedTried = await updateTried(id);
+    res.json({
+      recipes: updatedTried
     });
   } catch (err) {
     console.error(err);
