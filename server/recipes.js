@@ -82,9 +82,9 @@ const addRecipe = (name, prepTime, ingredients, direction, recipeURL) => {
     id: id,
     name,
     src: "",
-    alt: "",
+    alt: "Recipe",
     prepTime,
-    ingredients,
+    ingredients: ingredients.split(" "),
     toTry: false,
     tried: false,
     direction,
@@ -105,6 +105,17 @@ const updateToTry = (id) => {
   return findRecipe(id);
 };
 
+const updateToTryHomePage = (id) => {
+  let recipeListUpdated = recipeList.map((recipe) => {
+    if (recipe.id === id) {
+      recipe.toTry = !recipe.toTry;
+    }
+    return recipe;
+  });
+  recipeList = recipeListUpdated;
+  return recipeList;
+};
+
 const updateTried = (id) => {
   let recipeListUpdated = recipeList.map((recipe) => {
     if (recipe.id === id) {
@@ -116,4 +127,11 @@ const updateTried = (id) => {
   return findRecipe(id);
 };
 
-module.exports = { recipeList, updateToTry, findRecipe, addRecipe, updateTried };
+module.exports = {
+  recipeList,
+  updateToTry,
+  findRecipe,
+  addRecipe,
+  updateTried,
+  updateToTryHomePage
+};
