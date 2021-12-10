@@ -1,7 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 
-const { recipeList, updateToTry, findRecipe, addRecipe, updateTried } = require("./recipes");
+const {
+  recipeList,
+  updateToTry,
+  findRecipe,
+  addRecipe,
+  updateTried,
+  updateToTryHomePage
+} = require("./recipes");
+
 const { response } = require("express");
 
 const { json } = express;
@@ -56,6 +64,20 @@ app.put("/recipes/update/toTry/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const updatedToTry = await updateToTry(id);
+    res.json({
+      recipes: updatedToTry
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// Add/Remove Bookmark from Homepage
+
+app.put("/recipes/update/toTryMainPage/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedToTry = await updateToTryHomePage(id);
     res.json({
       recipes: updatedToTry
     });
