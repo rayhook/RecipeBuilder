@@ -6,9 +6,10 @@ import {
   ClockIcon,
   HeartIcon,
   CheckCircleIcon,
-  ArrowCircleRightIcon,
-  ShoppingCartIcon
+  ArrowCircleRightIcon
 } from "@heroicons/react/solid";
+
+import notFound from "../images/image-not.jpeg";
 
 function RecipeDetail() {
   let params = useParams();
@@ -47,7 +48,15 @@ function RecipeDetail() {
           <div className="columns is-centered">
             <div className="column is-4">
               <figure className="image">
-                <img className="is-rounded" src={selectedRecipe.src} alt={selectedRecipe.alt} />
+                <img
+                  className="is-rounded"
+                  src={selectedRecipe.src}
+                  alt={selectedRecipe.alt}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = notFound;
+                  }}
+                />
               </figure>
               <section className="has-text-centered my-5">
                 <h3 className="is-size-2 has-text-weight-bold">{selectedRecipe.name}</h3>
@@ -76,7 +85,7 @@ function RecipeDetail() {
                   <div className="icon is-medium">
                     <CheckCircleIcon className={selectedRecipe.tried ? "has-text-success" : ""} />
                   </div>
-                  <div>Add to Tried</div>
+                  <h3>{selectedRecipe.tried ? "Remove Tried" : "Add to Tried"}</h3>
                 </div>
               </div>
             </div>
@@ -87,7 +96,7 @@ function RecipeDetail() {
               <h3 className="is-size-4 mt-2 mb-4 has-text-weight-medium">Ingredients</h3>
               <div className=" is-flex is-flex-direction-column is-flex-wrap-wrap">
                 {selectedRecipe.ingredients.map((ingredient) => (
-                  <div className=" is-4 is-flex is-align-content-center">
+                  <div key={ingredient} className=" is-4 is-flex is-align-content-center">
                     <div className="icon is-medium mr-3">
                       <ArrowCircleRightIcon />
                     </div>
