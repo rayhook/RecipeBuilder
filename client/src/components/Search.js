@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
-import { BookmarkIcon, CheckCircleIcon } from "@heroicons/react/solid";
+import React, { useRef, useEffect } from "react";
 
 function Search({ searchTerm, handleChangeSearchTerm }) {
   const searchRef = useRef();
@@ -15,7 +14,7 @@ function Search({ searchTerm, handleChangeSearchTerm }) {
         <div className="column is-half">
           <input
             ref={searchRef}
-            className="input is-primary py-5 is-size-5 is-rounded"
+            className="input is-primary is-size-5 is-rounded"
             type="text"
             value={searchTerm}
             onChange={handleChangeSearchTerm}
