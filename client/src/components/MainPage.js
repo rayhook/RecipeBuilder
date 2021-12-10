@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import Search from "./Search";
-
 import RecipeAPI from "../API/getRecipes";
 import { RecipeContext } from "../context/RecipeContext";
-import CreateRecipe from "./CreateRecipe";
-import { ClockIcon, HeartIcon, PlusCircleIcon } from "@heroicons/react/solid";
-import "./RecipeList.css";
+import CreateRecipe from "./CreateRecipeModal";
+import { ClockIcon, HeartIcon } from "@heroicons/react/solid";
+import notFound from "../images/image-not.jpeg";
+import SideBar from "./SideBar";
 
 export default function RecipeList() {
   const { recipes, setRecipes } = useContext(RecipeContext);
@@ -20,6 +19,11 @@ export default function RecipeList() {
   const handleChangeSearchTerm = (e) => setSearchTerm(e.target.value);
   const handleSetBookmarkFilter = () => setBookmarkFilter((prevState) => !prevState);
   const handleSetTriedFilter = () => setTriedFilter((prevState) => !prevState);
+
+  const handleBookmarked = async (id) => {
+    const updatedToTry = await RecipeAPI.put(`/recipes/update/toTryMainPage/${id}`);
+    setRecipes(updatedToTry.data.recipes);
+  };
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -76,18 +80,6 @@ export default function RecipeList() {
 
   return (
     <div className="hero is-fullheight">
-      {/* <div className="">
-        <button className="button is-danger is-large" onClick={handleDisplayRecipeCreate}>
-          Add a Recipe
-        </button>
-      </div>
-
-      {displayRecipeCreate && (
-        <CreateRecipe
-          handleDisplayRecipeCreate={handleDisplayRecipeCreate}
-          setDisplayRecipeCreate={setDisplayRecipeCreate}
-        />
-      )} */}
       <CreateRecipe
         handleDisplayRecipeCreate={handleDisplayRecipeCreate}
         displayRecipeCreate={displayRecipeCreate}
@@ -101,44 +93,18 @@ export default function RecipeList() {
                 <div className="column is-one-fifth has-text-white ">
                   <div className="section">
                     <div className="container has-text-centered">
-                      <h1 className="title is-1 has-text-weight-semibold has-text-primary">
+                      <h1 className="is-size-2 is-size-1-desktop has-text-weight-semibold has-text-primary-dark">
                         Recipe Builder
                       </h1>
                     </div>
                   </div>
-                  <div className="section">
-                    <div className="container">
-                      <div className="buttons are-medium">
-                        <button
-                          className="button is-success is-outlined is-rounded is-fullwidth my-3"
-                          onClick={handleSetBookmarkFilter}
-                        >
-                          <span className="icon">
-                            <HeartIcon />
-                          </span>
-                          <span className="icon-text">Saved</span>
-                        </button>
-                        <button
-                          className="button is-success is-outlined is-rounded is-fullwidth my-1"
-                          onClick={handleSetTriedFilter}
-                        >
-                          <span className="icon">
-                            <PlusCircleIcon />
-                          </span>
-                          <span className="icon-text">To Try</span>
-                        </button>
-                        <button
-                          className="button is-success is-outlined is-rounded is-fullwidth my-1"
-                          onClick={handleDisplayRecipeCreate}
-                        >
-                          <span className="icon">
-                            <PlusCircleIcon />
-                          </span>
-                          <span className="icon-text">Create</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                  <SideBar
+                    bookmarkFilter={bookmarkFilter}
+                    handleSetBookmarkFilter={handleSetBookmarkFilter}
+                    triedFilter={triedFilter}
+                    handleSetTriedFilter={handleSetTriedFilter}
+                    handleDisplayRecipeCreate={handleDisplayRecipeCreate}
+                  />
                 </div>
                 <div className="column">
                   <div className="section">
@@ -162,7 +128,14 @@ export default function RecipeList() {
                                     className="card-image"
                                   >
                                     <figure className="image is-4by3">
-                                      <img alt={recipe.alt} src={recipe.src} />
+                                      <img
+                                        alt={recipe.alt}
+                                        src={recipe.src}
+                                        onError={(e) => {
+                                          e.target.onerror = null;
+                                          e.target.src = notFound;
+                                        }}
+                                      />
                                     </figure>
                                   </div>
                                   <div className="card-content">
@@ -181,7 +154,10 @@ export default function RecipeList() {
                                       <span className="icon-text">{recipe.prepTime} min</span>
                                     </div>
                                     <div className="card-footer-item">
-                                      <button className="button is-fullwidth is-rounded">
+                                      <button
+                                        onClick={() => handleBookmarked(recipe.id)}
+                                        className="button is-fullwidth is-rounded"
+                                      >
                                         <div className="icon">
                                           {recipe.toTry ? (
                                             <HeartIcon className=" has-text-dark" />
