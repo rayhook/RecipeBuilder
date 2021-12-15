@@ -1,5 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+const { response } = require("express");
+const { json } = express;
+const app = express();
 
 const {
   recipeList,
@@ -10,17 +13,12 @@ const {
   updateToTryHomePage
 } = require("./recipes");
 
-const { response } = require("express");
-
-const { json } = express;
-const app = express();
-
 // middleware
 
 app.use(cors());
 app.use(json());
 
-// all recipes
+// Get all recipes
 
 app.get("/recipes", (req, res) => {
   try {
@@ -31,6 +29,8 @@ app.get("/recipes", (req, res) => {
     console.error(err);
   }
 });
+
+// Get a recipe
 
 app.get("/recipes/:id", async (req, res) => {
   try {
