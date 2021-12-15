@@ -1,6 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
+import { RecipeContext } from "../context/RecipeContext";
 
-function Search({ searchTerm, handleChangeSearchTerm }) {
+function Search() {
+  const { searchTerm, handleChangeSearchTerm } = useContext(RecipeContext);
   const searchRef = useRef();
   const focusSearch = () => searchRef.current.focus();
 

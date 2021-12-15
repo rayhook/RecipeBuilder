@@ -19,7 +19,6 @@ function RecipeDetail() {
     const fetchRecipes = async () => {
       try {
         let response = await RecipeAPI.get(`/recipes/${params.id}`);
-        // got selected recipe object from backend and saved in state
         setSelectedRecipe(response.data.recipe[0]);
         setLoading(false);
       } catch (err) {
@@ -121,7 +120,3 @@ function RecipeDetail() {
 }
 
 export default RecipeDetail;
-
-/*
-
-*/

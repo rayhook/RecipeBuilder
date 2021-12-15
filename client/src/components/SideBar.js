@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { HeartIcon, PlusCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
-function SideBar({
-  bookmarkFilter,
-  handleSetBookmarkFilter,
-  triedFilter,
-  handleSetTriedFilter,
-  handleDisplayRecipeCreate
-}) {
+import { RecipeContext } from "../context/RecipeContext";
+
+function SideBar() {
+  const {
+    bookmarkFilter,
+    handleSetBookmarkFilter,
+    triedFilter,
+    handleSetTriedFilter,
+    handleDisplayRecipeCreate
+  } = useContext(RecipeContext);
   return (
     <div className="section">
       <div className="buttons are-medium">

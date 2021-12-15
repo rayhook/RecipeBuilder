@@ -1,24 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Search from "./Search";
 import RecipeAPI from "../API/getRecipes";
 import { RecipeContext } from "../context/RecipeContext";
-import CreateRecipe from "./CreateRecipeModal";
+import CreateRecipeModal from "./CreateRecipeModal";
 import { ClockIcon, HeartIcon } from "@heroicons/react/solid";
 import notFound from "../images/image-not.jpeg";
 import SideBar from "./SideBar";
 
 export default function RecipeList() {
-  const { recipes, setRecipes } = useContext(RecipeContext);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [bookmarkFilter, setBookmarkFilter] = useState(false);
-  const [triedFilter, setTriedFilter] = useState(false);
-  const [displayRecipeCreate, setDisplayRecipeCreate] = useState(false);
-  let navigate = useNavigate();
+  const { recipes, setRecipes, filterMethods } = useContext(RecipeContext);
 
-  const handleChangeSearchTerm = (e) => setSearchTerm(e.target.value);
-  const handleSetBookmarkFilter = () => setBookmarkFilter((prevState) => !prevState);
-  const handleSetTriedFilter = () => setTriedFilter((prevState) => !prevState);
+  let navigate = useNavigate();
 
   const handleBookmarked = async (id) => {
     const updatedToTry = await RecipeAPI.put(`/recipes/update/toTryMainPage/${id}`);
@@ -41,32 +34,6 @@ export default function RecipeList() {
     navigate(`/recipes/${id}`);
   };
 
-  const handleDisplayRecipeCreate = () => {
-    setDisplayRecipeCreate((prevState) => !prevState);
-  };
-
-  const filterMethods = [
-    {
-      filter: "NameIngredient",
-      active: true,
-      filterMethod: (recipe) =>
-        recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        recipe.ingredients
-          .map((ingredient) => ingredient.includes(searchTerm.toLowerCase()))
-          .includes(true)
-    },
-    {
-      filter: "bookmarked",
-      active: bookmarkFilter,
-      filterMethod: (recipe) => recipe.toTry === true
-    },
-    {
-      filter: "tried",
-      active: triedFilter,
-      filterMethod: (recipe) => recipe.tried === true
-    }
-  ];
-
   const activeFilterMethods = filterMethods.filter((method) => method.active);
 
   const results = recipes.filter((recipe) => {
@@ -80,11 +47,7 @@ export default function RecipeList() {
 
   return (
     <div className="hero is-fullheight">
-      <CreateRecipe
-        handleDisplayRecipeCreate={handleDisplayRecipeCreate}
-        displayRecipeCreate={displayRecipeCreate}
-        setDisplayRecipeCreate={setDisplayRecipeCreate}
-      />
+      <CreateRecipeModal />
       <div className="columns">
         <div className="column">
           <div className="section">
@@ -98,25 +61,12 @@ export default function RecipeList() {
                       </h1>
                     </div>
                   </div>
-                  <SideBar
-                    bookmarkFilter={bookmarkFilter}
-                    handleSetBookmarkFilter={handleSetBookmarkFilter}
-                    triedFilter={triedFilter}
-                    handleSetTriedFilter={handleSetTriedFilter}
-                    handleDisplayRecipeCreate={handleDisplayRecipeCreate}
-                  />
+                  <SideBar />
                 </div>
                 <div className="column">
                   <div className="section">
                     <div className="container">
-                      <Search
-                        searchTerm={searchTerm}
-                        handleChangeSearchTerm={handleChangeSearchTerm}
-                        bookmarkFilter={bookmarkFilter}
-                        handleSetBookmarkFilter={handleSetBookmarkFilter}
-                        triedFilter={triedFilter}
-                        handleSetTriedFilter={handleSetTriedFilter}
-                      />
+                      <Search />
                       <div className="columns is-multiline">
                         {results &&
                           results.map((recipe) => {

@@ -3,8 +3,9 @@ import RecipeAPI from "../API/getRecipes";
 import { RecipeContext } from "../context/RecipeContext";
 import Input from "./Input";
 
-function CreateRecipe({ handleDisplayRecipeCreate, setDisplayRecipeCreate, displayRecipeCreate }) {
-  const { setRecipes } = useContext(RecipeContext);
+function CreateRecipeModal() {
+  const { setRecipes, displayRecipeCreate, handleDisplayRecipeCreate, setDisplayRecipeCreate } =
+    useContext(RecipeContext);
   const inputRef = useRef();
   const focusInput = () => inputRef.current.focus();
 
@@ -125,4 +126,4 @@ function CreateRecipe({ handleDisplayRecipeCreate, setDisplayRecipeCreate, displ
   );
 }
 
-export default CreateRecipe;
+export default CreateRecipeModal;
