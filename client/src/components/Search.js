@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
-import { BookmarkIcon } from "@heroicons/react/solid";
+import React, { useRef, useEffect, useContext } from "react";
+import { RecipeContext } from "../context/RecipeContext";
 
-function Search({ searchTerm, handleChangeSearchTerm, handleFilterBookmarked }) {
+function Search() {
+  const { searchTerm, handleChangeSearchTerm } = useContext(RecipeContext);
   const searchRef = useRef();
-
   const focusSearch = () => searchRef.current.focus();
 
   useEffect(() => {
@@ -11,20 +11,18 @@ function Search({ searchTerm, handleChangeSearchTerm, handleFilterBookmarked }) 
   }, []);
 
   return (
-    <div
-      className=" flex sm:w-full md:w-full lg:w-6/12 h-16
-    my-8 text-xl py-2 px-4 shadow-sm bg-white rounded-lg"
-    >
-      <input
-        ref={searchRef}
-        className="text-gray-600 text-2xl w-9/12 h-full p-4 outline-none rounded-lg "
-        type="text"
-        value={searchTerm}
-        onChange={handleChangeSearchTerm}
-        placeholder="Search recipes or ingredients"
-      />
-      <div className="h-full w-1/4">
-        <BookmarkIcon onClick={handleFilterBookmarked} className="h-full w-full text-gray-400" />
+    <div className="section">
+      <div className="columns is-centered">
+        <div className="column is-half">
+          <input
+            ref={searchRef}
+            className="input is-primary is-size-5 is-rounded"
+            type="text"
+            value={searchTerm}
+            onChange={handleChangeSearchTerm}
+            placeholder="Search recipes or ingredients"
+          />
+        </div>
       </div>
     </div>
   );

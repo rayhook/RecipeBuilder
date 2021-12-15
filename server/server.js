@@ -1,16 +1,24 @@
 const express = require("express");
 const cors = require("cors");
-
-const { recipeList, updateToTry, findRecipe, addRecipe } = require("./recipes");
 const { response } = require("express");
-
 const { json } = express;
 const app = express();
+
+const {
+  recipeList,
+  updateToTry,
+  findRecipe,
+  addRecipe,
+  updateTried,
+  updateToTryHomePage
+} = require("./recipes");
 
 // middleware
 
 app.use(cors());
 app.use(json());
+
+// Get all recipes
 
 app.get("/recipes", (req, res) => {
   try {
@@ -22,9 +30,11 @@ app.get("/recipes", (req, res) => {
   }
 });
 
+// Get a recipe
+
 app.get("/recipes/:id", async (req, res) => {
   try {
-    let id = Number(req.params.id);
+    let id = req.params.id;
     let foundRecipe = await findRecipe(id);
     res.json({
       recipe: foundRecipe
@@ -38,7 +48,6 @@ app.get("/recipes/:id", async (req, res) => {
 
 app.post("/recipe/", async (req, res) => {
   try {
-    console.log("req Body: ", req.body);
     const { name, prepTime, ingredients, direction, recipeURL } = req.body;
     await addRecipe(name, prepTime, ingredients, direction, recipeURL);
     res.json({
@@ -53,10 +62,36 @@ app.post("/recipe/", async (req, res) => {
 
 app.put("/recipes/update/toTry/:id", async (req, res) => {
   try {
-    const id = Number(req.params.id);
+    const id = req.params.id;
     const updatedToTry = await updateToTry(id);
     res.json({
       recipes: updatedToTry
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// Add/Remove Bookmark from Homepage
+
+app.put("/recipes/update/toTryMainPage/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedToTry = await updateToTryHomePage(id);
+    res.json({
+      recipes: updatedToTry
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.put("/recipes/update/tried/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedTried = await updateTried(id);
+    res.json({
+      recipes: updatedTried
     });
   } catch (err) {
     console.error(err);
