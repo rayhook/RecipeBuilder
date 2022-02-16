@@ -18,6 +18,10 @@ const {
 app.use(cors());
 app.use(json());
 
+app.get("/", (req, res) => {
+  res.send("Recipe API Working");
+
+
 // Get all recipes
 
 app.get("/recipes", (req, res) => {
