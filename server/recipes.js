@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 let recipeList = [
   {
     id: "1",
-    name: "Chicken parmisan",
+    name: "Chicken parmisan with garlic",
     src: "https://static.toiimg.com/thumb/54673639.cms?imgsize=497063&width=800&height=800",
     alt: "Chicken based with tomato and basil",
     prepTime: 30,
