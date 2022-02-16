@@ -4,7 +4,7 @@ let recipeList = [
   {
     id: "1",
     name: "Chicken parmisan",
-    src: "https://static.onecms.io/wp-content/uploads/sites/9/2021/02/12/roast-chicken-with-chile-basil-vinaigrette-charred-broccoli-potatoes-FT-RECIPE0321.jpg",
+    src: "https://static.toiimg.com/thumb/54673639.cms?imgsize=497063&width=800&height=800",
     alt: "Chicken based with tomato and basil",
     prepTime: 30,
     ingredients: ["chicken", "cabbage", "onion", "garlic", "parsley"],
