@@ -18,9 +18,7 @@ const {
 app.use(cors());
 app.use(json());
 
-app.get("/", (req, res) => {
-  res.send("Recipe API Working");
-
+app.get("/", (req, res) => res.send("Recipe API running"));
 
 // Get all recipes
 
