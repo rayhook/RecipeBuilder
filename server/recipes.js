@@ -39,7 +39,7 @@ let recipeList = [
   },
   {
     id: "4",
-    name: "Prawn linguine",
+    name: "Prawn Linguine",
     src: "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2020/07/16/0/FNM_090120-Classic-Shrimp-Scampi_s4x3.jpg.rend.hgtvcom.616.462.suffix/1594915956100.jpeg",
     alt: "Chicken based with tomato and basil",
     prepTime: 35,
