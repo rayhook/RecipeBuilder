@@ -28,7 +28,7 @@ let recipeList = [
   {
     id: "3",
     name: "Turkey Tetrazzini",
-    src: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/chicken-recipes-marsala-1635169090.jpg?crop=0.920xw:0.736xh;0,0.0179xh&resize=640:*",
+    src: "https://static01.nyt.com/images/2021/11/10/dining/08PADMAREX/merlin_196956633_1083a8dd-ac4a-425d-9c3a-fe778f429a94-articleLarge.jpg",
     alt: "Chicken based with tomato and basil",
     prepTime: 20,
     ingredients: ["Tureky", "mushrooms", "garlic"],
